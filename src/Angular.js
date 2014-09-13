@@ -176,7 +176,7 @@ var /** holds major version number for IE or NaN for real browsers */
  * See http://msdn.microsoft.com/en-us/library/ms537503.aspx
  */
 msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1]);
-if (isNaN(msie)) {
+if (Number.isNaN(msie)) {
   msie = int((/trident\/.*; rv:(\d+)/.exec(lowercase(navigator.userAgent)) || [])[1]);
 }
 
@@ -865,7 +865,7 @@ function shallowCopy(src, dst) {
 function equals(o1, o2) {
   if (o1 === o2) return true;
   if (o1 === null || o2 === null) return false;
-  if (o1 !== o1 && o2 !== o2) return true; // NaN === NaN
+  if (Number.isNaN(o1) && Number.isNaN(o2)) return true;
   var t1 = typeof o1, t2 = typeof o2, length, key, keySet;
   if (t1 == t2) {
     if (t1 == 'object') {

@@ -561,7 +561,7 @@ function $RootScopeProvider(){
               oldItem = oldValue[i];
               newItem = newValue[i];
 
-              bothNaN = (oldItem !== oldItem) && (newItem !== newItem);
+              bothNaN = Number.isNaN(oldItem) && Number.isNaN(newItem);
               if (!bothNaN && (oldItem !== newItem)) {
                 changeDetected++;
                 oldValue[i] = newItem;
@@ -583,7 +583,7 @@ function $RootScopeProvider(){
                 oldItem = oldValue[key];
 
                 if (key in oldValue) {
-                  bothNaN = (oldItem !== oldItem) && (newItem !== newItem);
+                  bothNaN = Number.isNaN(oldItem) && Number.isNaN(newItem);
                   if (!bothNaN && (oldItem !== newItem)) {
                     changeDetected++;
                     oldValue[key] = newItem;
@@ -745,7 +745,7 @@ function $RootScopeProvider(){
                         !(watch.eq
                             ? equals(value, last)
                             : (typeof value === 'number' && typeof last === 'number'
-                               && isNaN(value) && isNaN(last)))) {
+                               && Number.isNaN(value) && Number.isNaN(last)))) {
                       dirty = true;
                       lastDirtyWatch = watch;
                       watch.last = watch.eq ? copy(value, null) : value;

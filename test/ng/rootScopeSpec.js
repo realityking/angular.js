@@ -425,7 +425,7 @@ describe('Scope', function() {
       $rootScope.$watch(function() { return 23;}, logger);
 
       $rootScope.$digest();
-      expect(isNaN(log.shift())).toBe(true); //jasmine's toBe and toEqual don't work well with NaNs
+      expect(Number.isNaN(log.shift())).toBe(true); //jasmine's toBe and toEqual don't work well with NaNs
       expect(log).toEqual([undefined, '', false, {}, 23]);
       log = [];
       $rootScope.$digest();

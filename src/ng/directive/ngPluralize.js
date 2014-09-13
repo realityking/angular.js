@@ -201,7 +201,7 @@ var ngPluralizeDirective = ['$locale', '$interpolate', function($locale, $interp
       scope.$watch(function ngPluralizeWatch() {
         var value = parseFloat(scope.$eval(numberExp));
 
-        if (!isNaN(value)) {
+        if (!Number.isNaN(value)) {
           //if explicit number rule such as 1, 2, 3... is defined, just use it. Otherwise,
           //check it against pluralization rules in $locale service
           if (!(value in whens)) value = $locale.pluralCat(value - offset);

@@ -3,6 +3,7 @@
 var angularFiles = {
   'angularSrc': [
     'src/minErr.js',
+    'src/es6shims.js',
     'src/Angular.js',
     'src/loader.js',
     'src/AngularPublic.js',

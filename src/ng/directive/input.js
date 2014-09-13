@@ -1191,7 +1191,7 @@ function numberInputType(scope, element, attr, ctrl, $sniffer, $browser) {
       if (isDefined(val) && !isNumber(val)) {
         val = parseFloat(val, 10);
       }
-      minVal = isNumber(val) && !isNaN(val) ? val : undefined;
+      minVal = isNumber(val) && !Number.isNaN(val) ? val : undefined;
       // TODO(matsko): implement validateLater to reduce number of validations
       ctrl.$validate();
     });
@@ -1207,7 +1207,7 @@ function numberInputType(scope, element, attr, ctrl, $sniffer, $browser) {
       if (isDefined(val) && !isNumber(val)) {
         val = parseFloat(val, 10);
       }
-      maxVal = isNumber(val) && !isNaN(val) ? val : undefined;
+      maxVal = isNumber(val) && !Number.isNaN(val) ? val : undefined;
       // TODO(matsko): implement validateLater to reduce number of validations
       ctrl.$validate();
     });
@@ -1921,7 +1921,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    */
   this.$validate = function() {
     // ignore $validate before model is initialized
-    if (isNumber(ctrl.$modelValue) && isNaN(ctrl.$modelValue)) {
+    if (Number.isNaN(ctrl.$modelValue)) {
       return;
     }
     this.$$parseAndValidate();
@@ -2063,7 +2063,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
         break;
       }
     }
-    if (isNumber(ctrl.$modelValue) && isNaN(ctrl.$modelValue)) {
+    if (Number.isNaN(ctrl.$modelValue)) {
       // ctrl.$modelValue has not been touched yet...
       ctrl.$modelValue = ngModelGet();
     }

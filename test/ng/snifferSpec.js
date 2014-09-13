@@ -351,7 +351,7 @@ describe('$sniffer', function() {
   });
 
   it('should return the internal msie flag', inject(function($sniffer) {
-    expect(isNaN($sniffer.msie)).toBe(isNaN(msie));
+    expect(Number.isNaN($sniffer.msie)).toBe(Number.isNaN(msie));
     if (msie) {
       expect($sniffer.msie).toBe(msie);
     }
