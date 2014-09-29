@@ -41,7 +41,9 @@ function $SnifferProvider() {
         vendorPrefix = ('WebkitOpacity' in bodyStyle) && 'webkit';
       }
 
+      // Support: Android4.3, Blackberry 10, Safari6, iOS6.1, Chrome25, Firefox15
       transitions = !!(('transition' in bodyStyle) || (vendorPrefix + 'Transition' in bodyStyle));
+      // Support: Android, Blackberry, Safari, iOS, Chrome, Firefox 15, OperaMobile,
       animations  = !!(('animation' in bodyStyle) || (vendorPrefix + 'Animation' in bodyStyle));
 
       if (android && (!transitions ||  !animations)) {
@@ -64,6 +66,7 @@ function $SnifferProvider() {
       history: !!($window.history && $window.history.pushState && !(android < 4) && !boxee),
       // jshint +W018
       hasEvent: function(event) {
+        // Support: IE9
         // IE9 implements 'input' event it's so fubared that we rather pretend that it doesn't have
         // it. In particular the event is not fired when backspace or delete key are pressed or
         // when cut operation is performed.

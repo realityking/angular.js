@@ -413,6 +413,7 @@ forEach(['src', 'srcset', 'href'], function(attrName) {
 
           attr.$set(name, value);
 
+          // Support: IE
           // on IE, if "ng:src" directive declaration is used and "src" attribute doesn't exist
           // then calling element.setAttribute('src', 'foo') doesn't do anything, so we need
           // to set the property as well to achieve the desired effect.

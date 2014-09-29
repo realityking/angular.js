@@ -199,6 +199,7 @@ angular.scenario.dsl('binding', function() {
  */
 angular.scenario.dsl('input', function() {
   var chain = {};
+  // Support: IE9
   var supportInputEvent =  'oninput' in document.createElement('div') && msie != 9;
 
   chain.enter = function(value, event) {

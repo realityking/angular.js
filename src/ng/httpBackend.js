@@ -58,10 +58,12 @@ function createHttpBackend($browser, createXhr, $browserDefer, callbacks, rawDoc
       xhr.onload = function requestLoaded() {
         var statusText = xhr.statusText || '';
 
+        // Support: IE9, Android2.3
         // responseText is the old-school way of retrieving response (supported by IE8 & 9)
         // response/responseType properties were introduced in XHR Level2 spec (supported by IE10)
         var response = ('response' in xhr) ? xhr.response : xhr.responseText;
 
+        // Support: IE9
         // normalize IE9 bug (http://bugs.jquery.com/ticket/1450)
         var status = xhr.status === 1223 ? 204 : xhr.status;
 
@@ -96,6 +98,7 @@ function createHttpBackend($browser, createXhr, $browserDefer, callbacks, rawDoc
         try {
           xhr.responseType = responseType;
         } catch (e) {
+          // Support: Safari6
           // WebKit added support for the json responseType value on 09/03/2013
           // https://bugs.webkit.org/show_bug.cgi?id=73648. Versions of Safari prior to 7 are
           // known to throw when setting the value "json" as the response type. Other older
