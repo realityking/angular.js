@@ -21,28 +21,14 @@ function $SnifferProvider() {
           int((/android (\d+)/.exec(lowercase(($window.navigator || {}).userAgent)) || [])[1]),
         boxee = /Boxee/i.test(($window.navigator || {}).userAgent),
         document = $document[0] || {},
-        vendorPrefix,
-        vendorRegex = /^(Moz|webkit|O|ms)(?=[A-Z])/,
         bodyStyle = document.body && document.body.style,
         transitions = false,
         animations = false,
         match;
 
     if (bodyStyle) {
-      for(var prop in bodyStyle) {
-        if(match = vendorRegex.exec(prop)) {
-          vendorPrefix = match[0];
-          vendorPrefix = vendorPrefix.substr(0, 1).toUpperCase() + vendorPrefix.substr(1);
-          break;
-        }
-      }
-
-      if(!vendorPrefix) {
-        vendorPrefix = ('WebkitOpacity' in bodyStyle) && 'webkit';
-      }
-
-      transitions = !!(('transition' in bodyStyle) || (vendorPrefix + 'Transition' in bodyStyle));
-      animations  = !!(('animation' in bodyStyle) || (vendorPrefix + 'Animation' in bodyStyle));
+      transitions = !!(('transition' in bodyStyle) || ('WebkitTransition' in bodyStyle));
+      animations  = !!(('animation' in bodyStyle) || ('WebkitAnimation' in bodyStyle));
 
       if (android && (!transitions||!animations)) {
         transitions = isString(document.body.style.webkitTransition);
@@ -77,7 +63,6 @@ function $SnifferProvider() {
         return eventSupport[event];
       },
       csp: csp(),
-      vendorPrefix: vendorPrefix,
       transitions : transitions,
       animations : animations,
       android: android

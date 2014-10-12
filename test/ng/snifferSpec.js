@@ -77,44 +77,6 @@ describe('$sniffer', function() {
     });
   });
 
-
-  describe('vendorPrefix', function() {
-
-    it('should return the correct vendor prefix based on the browser', function() {
-      inject(function($sniffer, $window) {
-        var expectedPrefix;
-        var ua = $window.navigator.userAgent.toLowerCase();
-        if(/chrome/i.test(ua) || /safari/i.test(ua) || /webkit/i.test(ua)) {
-          expectedPrefix = 'Webkit';
-        }
-        else if(/firefox/i.test(ua)) {
-          expectedPrefix = 'Moz';
-        }
-        else if(/ie/i.test(ua) || /trident/i.test(ua)) {
-          expectedPrefix = 'Ms';
-        }
-        expect($sniffer.vendorPrefix).toBe(expectedPrefix);
-      });
-    });
-
-    it('should still work for an older version of Webkit', function() {
-      module(function($provide) {
-        var doc = {
-          body : {
-            style : {
-              WebkitOpacity: '0'
-            }
-          }
-        };
-        $provide.value('$document', jqLite(doc));
-      });
-      inject(function($sniffer) {
-        expect($sniffer.vendorPrefix).toBe('webkit');
-      });
-    });
-
-  });
-
   describe('animations', function() {
     it('should be either true or false', function() {
       inject(function($sniffer) {
@@ -136,15 +98,13 @@ describe('$sniffer', function() {
       });
     });
 
-    it('should be true with vendor-specific animations', function() {
+    it('should be true with webkit animations', function() {
       module(function($provide) {
         var animationStyle = 'some_animation 2s linear';
         var doc = {
           body : {
             style : {
               WebkitAnimation : animationStyle,
-              MozAnimation : animationStyle,
-              OAnimation : animationStyle
             }
           }
         };
@@ -190,22 +150,6 @@ describe('$sniffer', function() {
       });
       inject(function($sniffer) {
         expect($sniffer.animations).toBe(true);
-      });
-    });
-
-    it('should be true when an older version of Webkit is used', function() {
-      module(function($provide) {
-        var doc = {
-          body : {
-            style : {
-              WebkitOpacity: '0'
-            }
-          }
-        };
-        $provide.value('$document', jqLite(doc));
-      });
-      inject(function($sniffer) {
-        expect($sniffer.animations).toBe(false);
       });
     });
 
