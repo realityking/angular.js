@@ -983,7 +983,7 @@ function baseInputType(scope, element, attr, ctrl, $sniffer, $browser) {
     // If the attribute ng-trim exists we will avoid trimming
     // If input type is 'password', the value is never trimmed
     if (type !== 'password' && (!attr.ngTrim || attr.ngTrim !== 'false')) {
-      value = trim(value);
+      value = value.trim();
     }
 
     // If a control is suffering from bad input (due to native validators), browsers discard its

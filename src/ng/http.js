@@ -43,8 +43,8 @@ function parseHeaders(headers) {
 
   forEach(headers.split('\n'), function(line) {
     i = line.indexOf(':');
-    key = lowercase(trim(line.substr(0, i)));
-    val = trim(line.substr(i + 1));
+    key = lowercase(line.substr(0, i).trim());
+    val = line.substr(i + 1).trim();
 
     if (key) {
       parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;

@@ -232,7 +232,7 @@ function JQLite(element) {
   var argIsString;
 
   if (isString(element)) {
-    element = trim(element);
+    element = element.trim();
     argIsString = true;
   }
   if (!(this instanceof JQLite)) {
@@ -366,10 +366,11 @@ function jqLiteHasClass(element, selector) {
 function jqLiteRemoveClass(element, cssClasses) {
   if (cssClasses && element.setAttribute) {
     forEach(cssClasses.split(' '), function(cssClass) {
-      element.setAttribute('class', trim(
+      element.setAttribute('class',
           (" " + (element.getAttribute('class') || '') + " ")
           .replace(/[\n\t]/g, " ")
-          .replace(" " + trim(cssClass) + " ", " "))
+          .replace(" " + cssClass.trim() + " ", " ")
+          .trim()
       );
     });
   }
@@ -381,13 +382,13 @@ function jqLiteAddClass(element, cssClasses) {
                             .replace(/[\n\t]/g, " ");
 
     forEach(cssClasses.split(' '), function(cssClass) {
-      cssClass = trim(cssClass);
+      cssClass = cssClass.trim();
       if (existingClasses.indexOf(' ' + cssClass + ' ') === -1) {
         existingClasses += cssClass + ' ';
       }
     });
 
-    element.setAttribute('class', trim(existingClasses));
+    element.setAttribute('class', existingClasses.trim());
   }
 }
 

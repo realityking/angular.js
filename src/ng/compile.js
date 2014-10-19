@@ -1034,7 +1034,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           var result = "";
 
           // first check if there are spaces because it's not the same pattern
-          var trimmedSrcset = trim(value);
+          var trimmedSrcset = value.trim();
           //                (   999x   ,|   999w   ,|   ,|,   )
           var srcPattern = /(\s+\d+x\s*,|\s+\d+w\s*,|\s+,|,\s+)/;
           var pattern = /\s/.test(trimmedSrcset) ? srcPattern : /(,)/;
@@ -1047,20 +1047,20 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           for (var i = 0; i < nbrUrisWith2parts; i++) {
             var innerIdx = i * 2;
             // sanitize the uri
-            result += $$sanitizeUri(trim(rawUris[innerIdx]), true);
+            result += $$sanitizeUri(rawUris[innerIdx].trim(), true);
             // add the descriptor
-            result += (" " + trim(rawUris[innerIdx + 1]));
+            result += (" " + rawUris[innerIdx + 1].trim());
           }
 
           // split the last item into uri and descriptor
-          var lastTuple = trim(rawUris[i * 2]).split(/\s/);
+          var lastTuple = rawUris[i * 2].trim().split(/\s/);
 
           // sanitize the last uri
-          result += $$sanitizeUri(trim(lastTuple[0]), true);
+          result += $$sanitizeUri(lastTuple[0].trim(), true);
 
           // and add the last descriptor if any
           if (lastTuple.length === 2) {
-            result += (" " + trim(lastTuple[1]));
+            result += (" " + lastTuple[1].trim());
           }
           this[key] = value = result;
         }
@@ -1415,7 +1415,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
 
             attr = nAttrs[j];
             name = attr.name;
-            value = trim(attr.value);
+            value = attr.value.trim();
 
             // support ngAttr attribute binding
             ngAttrName = directiveNormalize(name);
@@ -1473,7 +1473,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
             if (match) {
               nName = directiveNormalize(match[1]);
               if (addDirective(directives, nName, 'M', maxPriority, ignoreDirective)) {
-                attrs[nName] = trim(match[2]);
+                attrs[nName] = match[2].trim();
               }
             }
           } catch (e) {
@@ -1685,7 +1685,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
             if (jqLiteIsTextNode(directiveValue)) {
               $template = [];
             } else {
-              $template = removeComments(wrapTemplate(directive.templateNamespace, trim(directiveValue)));
+              $template = removeComments(wrapTemplate(directive.templateNamespace, directiveValue.trim()));
             }
             compileNode = $template[0];
 
@@ -2176,7 +2176,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
             if (jqLiteIsTextNode(content)) {
               $template = [];
             } else {
-              $template = removeComments(wrapTemplate(templateNamespace, trim(content)));
+              $template = removeComments(wrapTemplate(templateNamespace, content.trim()));
             }
             compileNode = $template[0];
 
