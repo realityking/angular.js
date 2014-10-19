@@ -358,7 +358,7 @@ function jqLiteData(element, key, value) {
 function jqLiteHasClass(element, selector) {
   if (!element.getAttribute) return false;
   return ((" " + (element.getAttribute('class') || '') + " ").replace(/[\n\t]/g, " ").
-      indexOf(" " + selector + " ") > -1);
+      contains(" " + selector + " "));
 }
 
 function jqLiteRemoveClass(element, cssClasses) {
@@ -380,7 +380,7 @@ function jqLiteAddClass(element, cssClasses) {
 
     forEach(cssClasses.split(' '), function(cssClass) {
       cssClass = trim(cssClass);
-      if (existingClasses.indexOf(' ' + cssClass + ' ') === -1) {
+      if (!existingClasses.contains(' ' + cssClass + ' ')) {
         existingClasses += cssClass + ' ';
       }
     });
@@ -783,7 +783,7 @@ forEach({
     }
 
     // http://jsperf.com/string-indexof-vs-split
-    var types = type.indexOf(' ') >= 0 ? type.split(' ') : [type];
+    var types = type.contains(' ') ? type.split(' ') : [type];
     var i = types.length;
 
     while (i--) {

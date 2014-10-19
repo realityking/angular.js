@@ -11,7 +11,7 @@ function defaultHttpResponseTransform(data, headers) {
     // strip json vulnerability protection prefix
     data = data.replace(JSON_PROTECTION_PREFIX, '');
     var contentType = headers('Content-Type');
-    if ((contentType && contentType.indexOf(APPLICATION_JSON) === 0) ||
+    if ((contentType && contentType.startsWith(APPLICATION_JSON)) ||
         (JSON_START.test(data) && JSON_END.test(data))) {
       data = fromJson(data);
     }
@@ -1094,7 +1094,7 @@ function $HttpProvider() {
         });
       });
       if (parts.length > 0) {
-        url += ((url.indexOf('?') == -1) ? '?' : '&') + parts.join('&');
+        url += (url.contains('?') ? '&' : '?') + parts.join('&');
       }
       return url;
     }

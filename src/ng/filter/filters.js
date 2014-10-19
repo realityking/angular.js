@@ -148,7 +148,7 @@ function formatNumber(number, pattern, groupSep, decimalSep, fractionSize) {
       parts = [];
 
   var hasExponent = false;
-  if (numStr.indexOf('e') !== -1) {
+  if (numStr.contains('e')) {
     var match = numStr.match(/([\d\.]+)e(-?)(\d+)/);
     if (match && match[2] == '-' && match[3] > fractionSize + 1) {
       numStr = '0';

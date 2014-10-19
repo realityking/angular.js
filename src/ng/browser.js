@@ -384,7 +384,7 @@ function Browser(window, document, $log, $sniffer) {
 
         for (i = 0; i < cookieArray.length; i++) {
           cookie = cookieArray[i];
-          index = cookie.indexOf('=');
+          index = cookie.startsWith('=');
           if (index > 0) { //ignore nameless cookies
             name = safeDecodeURIComponent(cookie.substring(0, index));
             // the first value that is seen for a cookie is the most

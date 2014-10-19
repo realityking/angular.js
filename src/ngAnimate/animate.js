@@ -1793,7 +1793,7 @@ angular.module('ngAnimate', ['ng'])
       function animateRun(animationEvent, element, className, activeAnimationComplete, styles) {
         var node = extractElementNode(element);
         var elementData = element.data(NG_ANIMATE_CSS_DATA_KEY);
-        if (node.getAttribute('class').indexOf(className) == -1 || !elementData) {
+        if (!node.getAttribute('class').contains(className) || !elementData) {
           activeAnimationComplete();
           return;
         }

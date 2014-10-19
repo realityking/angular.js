@@ -148,7 +148,7 @@ function filterFilter() {
             return false;
           }
           text = (''+text).toLowerCase();
-          return (''+obj).toLowerCase().indexOf(text) > -1;
+          return (''+obj).toLowerCase().contains(text);
         };
       }
     }

@@ -57,7 +57,7 @@ function parseAppUrl(relativeUrl, locationObj, appBase) {
  *                   expected string.
  */
 function beginsWith(begin, whole) {
-  if (whole.indexOf(begin) === 0) {
+  if (whole.startsWith(begin)) {
     return whole.substr(begin.length);
   }
 }
@@ -216,7 +216,7 @@ function LocationHashbangUrl(appBase, hashPrefix) {
       var firstPathSegmentMatch;
 
       //Get the relative path from the input URL.
-      if (url.indexOf(base) === 0) {
+      if (url.startsWith(base)) {
         url = url.replace(base, '');
       }
 

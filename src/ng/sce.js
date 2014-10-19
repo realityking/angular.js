@@ -22,7 +22,7 @@ function adjustMatcher(matcher) {
     // '*' matches any character except those from the set ':/.?&'.
     // '**' matches any character (like .* in a RegExp).
     // More than 2 *'s raises an error as it's ill defined.
-    if (matcher.indexOf('***') > -1) {
+    if (matcher.contains('***')) {
       throw $sceMinErr('iwcard',
           'Illegal sequence *** in string matcher.  String: {0}', matcher);
     }
