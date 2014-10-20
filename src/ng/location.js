@@ -263,7 +263,7 @@ function LocationHashbangUrl(appBase, hashPrefix) {
  */
 function LocationHashbangInHtml5Url(appBase, hashPrefix) {
   this.$$html5 = true;
-  LocationHashbangUrl.apply(this, arguments);
+  LocationHashbangUrl.call(this, appBase, hashPrefix);
 
   var appBaseNoFile = stripFile(appBase);
 

@@ -1161,7 +1161,7 @@ function $ParseProvider() {
       }, function oneTimeListener(value, old, scope) {
         lastValue = value;
         if (isFunction(listener)) {
-          listener.apply(this, arguments);
+          listener.call(this, value, old, scope);
         }
         if (isDefined(value)) {
           scope.$$postDigest(function () {
@@ -1204,7 +1204,7 @@ function $ParseProvider() {
         return parsedExpression(scope);
       }, function constantListener(value, old, scope) {
         if (isFunction(listener)) {
-          listener.apply(this, arguments);
+          listener.call(this, value, old, scope);
         }
         unwatch();
       }, objectEquality);
