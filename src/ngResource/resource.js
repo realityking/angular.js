@@ -27,9 +27,7 @@ function lookupDottedPath(obj, path) {
 /**
  * Create a shallow copy of an object and clear other fields from the destination
  */
-function shallowClearAndCopy(src, dst) {
-  dst = dst || {};
-
+function shallowClearAndCopy(src, dst = {}) {
   angular.forEach(dst, function(value, key){
     delete dst[key];
   });
@@ -416,7 +414,7 @@ angular.module('ngResource', ['ng']).
       }
 
       Route.prototype = {
-        setUrlParams: function (config, params, actionUrl) {
+        setUrlParams: function (config, params = {}, actionUrl) {
           var self = this,
             url = actionUrl || self.template,
             val,
@@ -434,7 +432,6 @@ angular.module('ngResource', ['ng']).
           });
           url = url.replace(/\\:/g, ':');
 
-          params = params || {};
           forEach(self.urlParams, function (_, urlParam) {
             val = params.hasOwnProperty(urlParam) ? params[urlParam] : self.defaults[urlParam];
             if (angular.isDefined(val) && val !== null) {
@@ -497,8 +494,8 @@ angular.module('ngResource', ['ng']).
           return response.resource;
         }
 
-        function Resource(value) {
-          shallowClearAndCopy(value || {}, this);
+        function Resource(value = {}) {
+          shallowClearAndCopy(value, this);
         }
 
         Resource.prototype.toJSON = function () {

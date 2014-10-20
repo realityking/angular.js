@@ -897,8 +897,8 @@ function concat(array1, array2, index) {
   return array1.concat(slice.call(array2, index));
 }
 
-function sliceArgs(args, startIndex) {
-  return slice.call(args, startIndex || 0);
+function sliceArgs(args, startIndex = 0) {
+  return slice.call(args, startIndex);
 }
 
 
@@ -1044,9 +1044,9 @@ function tryDecodeURIComponent(value) {
  * Parses an escaped url query string into key-value pairs.
  * @returns {Object.<string,boolean|Array>}
  */
-function parseKeyValue(/**string*/keyValue) {
+function parseKeyValue(/**string*/keyValue = "") {
   var obj = {}, key_value, key;
-  forEach((keyValue || "").split('&'), function(keyValue) {
+  forEach(keyValue.split('&'), function(keyValue) {
     if (keyValue) {
       key_value = keyValue.replace(/\+/g,'%20').split('=');
       key = tryDecodeURIComponent(key_value[0]);
@@ -1434,8 +1434,7 @@ function getTestability(rootElement) {
 }
 
 var SNAKE_CASE_REGEXP = /[A-Z]/g;
-function snake_case(name, separator) {
-  separator = separator || '_';
+function snake_case(name, separator = '_') {
   return name.replace(SNAKE_CASE_REGEXP, function(letter, pos) {
     return (pos ? separator : '') + letter.toLowerCase();
   });
@@ -1497,9 +1496,9 @@ function bindJQuery() {
 /**
  * throw error if the argument is falsy.
  */
-function assertArg(arg, name, reason) {
+function assertArg(arg, name = '?', reason = "required") {
   if (!arg) {
-    throw ngMinErr('areq', "Argument '{0}' is {1}", (name || '?'), (reason || "required"));
+    throw ngMinErr('areq', "Argument '{0}' is {1}", name, reason);
   }
   return arg;
 }

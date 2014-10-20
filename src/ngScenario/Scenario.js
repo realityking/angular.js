@@ -184,8 +184,7 @@ function asyncForEach(list, iterator, done) {
  * @param {Number=} [maxStackLines=5] max lines of the stack trace to include
  *  default is 5.
  */
-function formatException(error, maxStackLines) {
-  maxStackLines = maxStackLines || 5;
+function formatException(error, maxStackLines = 5) {
   var message = error.toString();
   if (error.stack) {
     var stack = error.stack.split('\n');

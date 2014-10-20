@@ -257,9 +257,7 @@ angular.module('ngMessages', [])
           messages.splice(index, 0, message); //add the new one (and shift right)
         };
 
-        this.renderMessages = function(values, multiple) {
-          values = values || {};
-
+        this.renderMessages = function(values = {}, multiple) {
           var found;
           angular.forEach(messages, function(message) {
             if ((!found || multiple) && truthyVal(values[message.type])) {

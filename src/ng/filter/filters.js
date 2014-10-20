@@ -220,7 +220,7 @@ function formatNumber(number, pattern, groupSep, decimalSep, fractionSize) {
   return parts.join('');
 }
 
-function padNumber(num, digits, trim) {
+function padNumber(num, digits, trim = false) {
   var neg = '';
   if (num < 0) {
     neg =  '-';
@@ -234,8 +234,7 @@ function padNumber(num, digits, trim) {
 }
 
 
-function dateGetter(name, size, offset, trim) {
-  offset = offset || 0;
+function dateGetter(name, size, offset = 0, trim = false) {
   return function(date) {
     var value = date['get' + name]();
     if (offset > 0 || value > -offset)
@@ -446,12 +445,11 @@ function dateFilter($locale) {
   }
 
 
-  return function(date, format, timezone) {
+  return function(date, format = 'mediumDate', timezone) {
     var text = '',
         parts = [],
         fn, match;
 
-    format = format || 'mediumDate';
     format = $locale.DATETIME_FORMATS[format] || format;
     if (isString(date)) {
       date = NUMBER_STRING.test(date) ? int(date) : jsonStringToDate(date);

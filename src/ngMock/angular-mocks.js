@@ -64,8 +64,7 @@ angular.mock.$Browser = function() {
   self.deferredFns = [];
   self.deferredNextId = 0;
 
-  self.defer = function(fn, delay) {
-    delay = delay || 0;
+  self.defer = function(fn, delay = 0) {
     self.deferredFns.push({time:(self.defer.now + delay), fn:fn, id: self.deferredNextId});
     self.deferredFns.sort(function(a, b){ return a.time - b.time;});
     return self.deferredNextId++;
@@ -873,8 +872,7 @@ angular.mock.dump = function(object) {
     return out;
   }
 
-  function serializeScope(scope, offset) {
-    offset = offset ||  '  ';
+  function serializeScope(scope, offset = '  ') {
     var log = [offset + 'Scope(' + scope.$id + '): {'];
     for (var key in scope) {
       if (Object.prototype.hasOwnProperty.call(scope, key) && !key.match(/^(\$|this)/)) {
