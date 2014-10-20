@@ -138,8 +138,6 @@
     "getAliasedAttrName": false,
     "createEventHandler": false,
     "JQLitePrototype": false,
-    "addEventListenerFn": false,
-    "removeEventListenerFn": false,
     "jqLiteIsTextNode": false,
     "jqLiteDocumentLoaded": false,
 
