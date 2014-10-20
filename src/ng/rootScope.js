@@ -1134,7 +1134,7 @@ function $RootScopeProvider(){
        * @param {...*} args Optional one or more arguments which will be passed onto the event listeners.
        * @return {Object} Event object (see {@link ng.$rootScope.Scope#$on}).
        */
-      $emit: function(name, args) {
+      $emit: function(name, ...args) {
         var empty = [],
             namedListeners,
             scope = this,
@@ -1148,7 +1148,7 @@ function $RootScopeProvider(){
               },
               defaultPrevented: false
             },
-            listenerArgs = concat([event], arguments, 1),
+            listenerArgs = [event].concat(args),
             i, length;
 
         do {
@@ -1206,7 +1206,7 @@ function $RootScopeProvider(){
        * @param {...*} args Optional one or more arguments which will be passed onto the event listeners.
        * @return {Object} Event object, see {@link ng.$rootScope.Scope#$on}
        */
-      $broadcast: function(name, args) {
+      $broadcast: function(name, ...args) {
         var target = this,
             current = target,
             next = target,
@@ -1221,7 +1221,7 @@ function $RootScopeProvider(){
 
         if (!target.$$listenerCount[name]) return event;
 
-        var listenerArgs = concat([event], arguments, 1),
+        var listenerArgs = [event].concat(args),
             listeners, i, length;
 
         //down while you can, then up and next sibling or up and next sibling until back at root

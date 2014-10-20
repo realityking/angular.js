@@ -933,8 +933,8 @@ function $HttpProvider() {
     return $http;
 
 
-    function createShortMethods(names) {
-      forEach(arguments, function(name) {
+    function createShortMethods(...names) {
+      forEach(names, function(name) {
         $http[name] = function(url, config) {
           return $http(extend(config || {}, {
             method: name,
@@ -945,8 +945,8 @@ function $HttpProvider() {
     }
 
 
-    function createShortMethodsWithData(name) {
-      forEach(arguments, function(name) {
+    function createShortMethodsWithData(...names) {
+      forEach(names, function(name) {
         $http[name] = function(url, data, config) {
           return $http(extend(config || {}, {
             method: name,

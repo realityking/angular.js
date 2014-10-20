@@ -111,9 +111,9 @@ function $LogProvider(){
       debug: (function () {
         var fn = consoleLog('debug');
 
-        return function() {
+        return function(...args) {
           if (debug) {
-            fn.apply(self, arguments);
+            fn.apply(self, args);
           }
         };
       }())
@@ -144,10 +144,10 @@ function $LogProvider(){
       } catch (e) {}
 
       if (hasApply) {
-        return function() {
-          var args = [];
-          forEach(arguments, function(arg) {
-            args.push(formatError(arg));
+        return function(...args) {
+          var formattedArgs = [];
+          forEach(args, function(arg) {
+            formattedArgs.push(formatError(formattedArgs));
           });
           return logFn.apply(console, args);
         };

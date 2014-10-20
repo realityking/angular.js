@@ -344,11 +344,11 @@ function setHashKey(obj, h) {
  * @param {...Object} src Source object(s).
  * @returns {Object} Reference to `dst`.
  */
-function extend(dst) {
+function extend(dst, ...src) {
   var h = dst.$$hashKey;
 
-  for (var i = 1, ii = arguments.length; i < ii; i++) {
-    var obj = arguments[i];
+  for (var i = 0, ii = src.length; i < ii; i++) {
+    var obj = src[i];
     if (obj) {
       var keys = Object.keys(obj);
       for (var j = 0, jj = keys.length; j < jj; j++) {

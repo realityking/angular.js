@@ -137,8 +137,7 @@ angular.scenario.Describe.prototype.xit = angular.noop;
  *   after: Function
  *  }
  */
-angular.scenario.Describe.prototype.getSpecs = function() {
-  var specs = arguments[0] || [];
+angular.scenario.Describe.prototype.getSpecs = function(specs = []) {
   angular.forEach(this.children, function(child) {
     child.getSpecs(specs);
   });
