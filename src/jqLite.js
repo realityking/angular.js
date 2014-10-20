@@ -504,7 +504,7 @@ var JQLitePrototype = JQLite.prototype = {
   },
 
   length: 0,
-  push: push,
+  push: [].push,
   sort: [].sort,
   splice: [].splice
 };

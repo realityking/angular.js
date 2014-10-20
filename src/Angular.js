@@ -7,7 +7,6 @@
   jQuery: true,
   slice: true,
   splice: true,
-  push: true,
   toString: true,
   ngMinErr: true,
   angularModule: true,
@@ -169,7 +168,6 @@ var
     jQuery,           // delay binding
     slice             = [].slice,
     splice            = [].splice,
-    push              = [].push,
     toString          = Object.prototype.toString,
     ngMinErr          = minErr('ng'),
 
