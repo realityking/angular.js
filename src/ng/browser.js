@@ -288,9 +288,9 @@ function Browser(window, document, $log, $sniffer) {
       // changed by push/replaceState
 
       // html5 history api - popstate event
-      if ($sniffer.history) jqLite(window).on('popstate', cacheStateAndFireUrlChange);
+      if ($sniffer.history) window.addEventListener('popstate', cacheStateAndFireUrlChange);
       // hashchange event
-      jqLite(window).on('hashchange', cacheStateAndFireUrlChange);
+      window.addEventListener('hashchange', cacheStateAndFireUrlChange);
 
       urlChangeInit = true;
     }
