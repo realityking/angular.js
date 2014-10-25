@@ -332,11 +332,12 @@ var selectDirective = ['$compile', '$parse', function($compile,   $parse) {
         });
       }
 
-      function setupAsMultiple(scope, selectElement, ctrl) {
+      function setupAsMultiple(scope, $selectElement, ctrl) {
+        var selectElement = $selectElement[0];
         var lastView;
         ctrl.$render = function() {
           var items = new HashMap(ctrl.$viewValue);
-          forEach(selectElement.find('option'), function(option) {
+          forEach(selectElement.options, function(option) {
             option.selected = isDefined(items.get(option.value));
           });
         };
@@ -350,10 +351,10 @@ var selectDirective = ['$compile', '$parse', function($compile,   $parse) {
           }
         });
 
-        selectElement.on('change', function() {
+        $selectElement.on('change', function() {
           scope.$apply(function() {
             var array = [];
-            forEach(selectElement.find('option'), function(option) {
+            forEach(selectElement.options, function(option) {
               if (option.selected) {
                 array.push(option.value);
               }
