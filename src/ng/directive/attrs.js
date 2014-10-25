@@ -392,12 +392,13 @@ forEach(['src', 'srcset', 'href'], function(attrName) {
   ngAttributeAliasDirectives[normalized] = function() {
     return {
       priority: 99, // it needs to run after the attributes are interpolated
+      rawElement: true,
       link: function(scope, element, attr) {
         var propName = attrName,
             name = attrName;
 
         if (attrName === 'href' &&
-            toString.call(element.prop('href')) === '[object SVGAnimatedString]') {
+            toString.call(element.href) === '[object SVGAnimatedString]') {
           name = 'xlinkHref';
           attr.$attr[name] = 'xlink:href';
           propName = null;
@@ -417,7 +418,7 @@ forEach(['src', 'srcset', 'href'], function(attrName) {
           // then calling element.setAttribute('src', 'foo') doesn't do anything, so we need
           // to set the property as well to achieve the desired effect.
           // we use attr[attrName] value since $set can sanitize the url.
-          if (msie && propName) element.prop(propName, attr[name]);
+          if (msie && propName) element[propName] = attr[name];
         });
       }
     };

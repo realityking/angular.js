@@ -755,6 +755,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
                 directive.name = directive.name || name;
                 directive.require = directive.require || (directive.controller && directive.name);
                 directive.restrict = directive.restrict || 'EA';
+                directive.rawElement = directive.rawElement || false;
                 if (isObject(directive.scope)) {
                   directive.$$isolateBindings = parseIsolateBindings(directive.scope, directive.name);
                 }
@@ -1678,7 +1679,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           ii = directives.length;
         } else if (directive.compile) {
           try {
-            linkFn = directive.compile($compileNode, templateAttrs, childTranscludeFn);
+            linkFn = directive.compile(directive.rawElement ? $compileNode[0] : $compileNode, templateAttrs, childTranscludeFn);
             if (isFunction(linkFn)) {
               addLinkFns(null, linkFn, attrStart, attrEnd);
             } else if (linkFn) {
@@ -1714,6 +1715,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           if (attrStart) pre = groupElementsLinkFnWrapper(pre, attrStart, attrEnd);
           pre.require = directive.require;
           pre.directiveName = directiveName;
+          pre.rawElement = directive.rawElement;
           if (newIsolateScopeDirective === directive || directive.$$isolateScope) {
             pre = cloneAndAnnotateFn(pre, {isolateScope: true});
           }
@@ -1723,6 +1725,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           if (attrStart) post = groupElementsLinkFnWrapper(post, attrStart, attrEnd);
           post.require = directive.require;
           post.directiveName = directiveName;
+          post.rawElement = directive.rawElement;
           if (newIsolateScopeDirective === directive || directive.$$isolateScope) {
             post = cloneAndAnnotateFn(post, {isolateScope: true});
           }
@@ -1923,7 +1926,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           linkFn = preLinkFns[i];
           invokeLinkFn(linkFn,
               linkFn.isolateScope ? isolateScope : scope,
-              $element,
+              linkFn.rawElement ? $element[0] : $element,
               attrs,
               linkFn.require && getControllers(linkFn.directiveName, linkFn.require, $element, elementControllers),
               transcludeFn
@@ -1944,7 +1947,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           linkFn = postLinkFns[i];
           invokeLinkFn(linkFn,
               linkFn.isolateScope ? isolateScope : scope,
-              $element,
+              linkFn.rawElement ? $element[0] : $element,
               attrs,
               linkFn.require && getControllers(linkFn.directiveName, linkFn.require, $element, elementControllers),
               transcludeFn
