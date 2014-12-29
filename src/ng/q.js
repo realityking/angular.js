@@ -270,29 +270,43 @@ function qFactory(nextTick, exceptionHandler) {
     this.$$state = { status: 0 };
   }
 
-  Promise.prototype = {
-    then: function(onFulfilled, onRejected, progressBack) {
-      var result = new Deferred();
+  Promise.prototype = {};
+  
+  Object.defineProperties(Promise.prototype, {
+    then: {
+      value: function(onFulfilled, onRejected, progressBack) {
+        var result = new Deferred();
 
-      this.$$state.pending = this.$$state.pending || [];
-      this.$$state.pending.push([result, onFulfilled, onRejected, progressBack]);
-      if (this.$$state.status > 0) scheduleProcessQueue(this.$$state);
+        this.$$state.pending = this.$$state.pending || [];
+        this.$$state.pending.push([result, onFulfilled, onRejected, progressBack]);
+        if (this.$$state.status > 0) scheduleProcessQueue(this.$$state);
 
-      return result.promise;
+        return result.promise;
+      },
+      configurable: true,
+      writable: true
     },
-
-    "catch": function(callback) {
-      return this.then(null, callback);
+    
+    catch: {
+      value: function(callback) {
+        return this.then(null, callback);
+      },
+      configurable: true,
+      writable: true
     },
-
-    "finally": function(callback, progressBack) {
-      return this.then(function(value) {
-        return handleCallback(value, true, callback);
-      }, function(error) {
-        return handleCallback(error, false, callback);
-      }, progressBack);
+    
+    finally: {
+      value: function(callback, progressBack) {
+        return this.then(function(value) {
+          return handleCallback(value, true, callback);
+        }, function(error) {
+          return handleCallback(error, false, callback);
+        }, progressBack);
+      },
+      configurable: true,
+      writable: true
     }
-  };
+  });
 
   //Faster, more basic than angular.bind http://jsperf.com/angular-bind-vs-custom-vs-native
   function simpleBind(context, fn) {
