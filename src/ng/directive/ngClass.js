@@ -1,32 +1,17 @@
 'use strict';
 
-function classDirective(name, selector) {
-  name = 'ngClass' + name;
+function classDirective() {
   return ['$animate', function($animate) {
     return {
       restrict: 'AC',
       link: function(scope, element, attr) {
         var oldVal;
 
-        scope.$watch(attr[name], ngClassWatchAction, true);
+        scope.$watch(attr['ngClass'], ngClassWatchAction, true);
 
         attr.$observe('class', function(value) {
-          ngClassWatchAction(scope.$eval(attr[name]));
+          ngClassWatchAction(scope.$eval(attr['ngClass']));
         });
-
-
-        if (name !== 'ngClass') {
-          scope.$watch('$index', function($index, old$index) {
-            // jshint bitwise: false
-            var mod = $index & 1;
-            if (mod !== (old$index & 1)) {
-              var classes = arrayClasses(scope.$eval(attr[name]));
-              mod === selector ?
-                addClasses(classes) :
-                removeClasses(classes);
-            }
-          });
-        }
 
         function addClasses(classes) {
           var newClasses = digestClassCounts(classes, 1);
@@ -67,14 +52,12 @@ function classDirective(name, selector) {
         }
 
         function ngClassWatchAction(newVal) {
-          if (selector === true || scope.$index % 2 === selector) {
-            var newClasses = arrayClasses(newVal || []);
-            if (!oldVal) {
-              addClasses(newClasses);
-            } else if (!equals(newVal,oldVal)) {
-              var oldClasses = arrayClasses(oldVal);
-              updateClasses(oldClasses, newClasses);
-            }
+          var newClasses = arrayClasses(newVal || []);
+          if (!oldVal) {
+            addClasses(newClasses);
+          } else if (!equals(newVal,oldVal)) {
+            var oldClasses = arrayClasses(oldVal);
+            updateClasses(oldClasses, newClasses);
           }
           oldVal = shallowCopy(newVal);
         }
@@ -259,100 +242,4 @@ function classDirective(name, selector) {
    to view the step by step details of {@link ng.$animate#addClass $animate.addClass} and
    {@link ng.$animate#removeClass $animate.removeClass}.
  */
-var ngClassDirective = classDirective('', true);
-
-/**
- * @ngdoc directive
- * @name ngClassOdd
- * @restrict AC
- *
- * @description
- * The `ngClassOdd` and `ngClassEven` directives work exactly as
- * {@link ng.directive:ngClass ngClass}, except they work in
- * conjunction with `ngRepeat` and take effect only on odd (even) rows.
- *
- * This directive can be applied only within the scope of an
- * {@link ng.directive:ngRepeat ngRepeat}.
- *
- * @element ANY
- * @param {expression} ngClassOdd {@link guide/expression Expression} to eval. The result
- *   of the evaluation can be a string representing space delimited class names or an array.
- *
- * @example
-   <example>
-     <file name="index.html">
-        <ol ng-init="names=['John', 'Mary', 'Cate', 'Suz']">
-          <li ng-repeat="name in names">
-           <span ng-class-odd="'odd'" ng-class-even="'even'">
-             {{name}}
-           </span>
-          </li>
-        </ol>
-     </file>
-     <file name="style.css">
-       .odd {
-         color: red;
-       }
-       .even {
-         color: blue;
-       }
-     </file>
-     <file name="protractor.js" type="protractor">
-       it('should check ng-class-odd and ng-class-even', function() {
-         expect(element(by.repeater('name in names').row(0).column('name')).getAttribute('class')).
-           toMatch(/odd/);
-         expect(element(by.repeater('name in names').row(1).column('name')).getAttribute('class')).
-           toMatch(/even/);
-       });
-     </file>
-   </example>
- */
-var ngClassOddDirective = classDirective('Odd', 0);
-
-/**
- * @ngdoc directive
- * @name ngClassEven
- * @restrict AC
- *
- * @description
- * The `ngClassOdd` and `ngClassEven` directives work exactly as
- * {@link ng.directive:ngClass ngClass}, except they work in
- * conjunction with `ngRepeat` and take effect only on odd (even) rows.
- *
- * This directive can be applied only within the scope of an
- * {@link ng.directive:ngRepeat ngRepeat}.
- *
- * @element ANY
- * @param {expression} ngClassEven {@link guide/expression Expression} to eval. The
- *   result of the evaluation can be a string representing space delimited class names or an array.
- *
- * @example
-   <example>
-     <file name="index.html">
-        <ol ng-init="names=['John', 'Mary', 'Cate', 'Suz']">
-          <li ng-repeat="name in names">
-           <span ng-class-odd="'odd'" ng-class-even="'even'">
-             {{name}} &nbsp; &nbsp; &nbsp;
-           </span>
-          </li>
-        </ol>
-     </file>
-     <file name="style.css">
-       .odd {
-         color: red;
-       }
-       .even {
-         color: blue;
-       }
-     </file>
-     <file name="protractor.js" type="protractor">
-       it('should check ng-class-odd and ng-class-even', function() {
-         expect(element(by.repeater('name in names').row(0).column('name')).getAttribute('class')).
-           toMatch(/odd/);
-         expect(element(by.repeater('name in names').row(1).column('name')).getAttribute('class')).
-           toMatch(/even/);
-       });
-     </file>
-   </example>
- */
-var ngClassEvenDirective = classDirective('Even', 1);
+var ngClassDirective = classDirective();

@@ -178,49 +178,6 @@ describe('ngClass', function() {
   }));
 
 
-  it('should ngClass odd/even', inject(function($rootScope, $compile) {
-    element = $compile('<ul><li ng-repeat="i in [0,1]" class="existing" ng-class-odd="\'odd\'" ng-class-even="\'even\'"></li><ul>')($rootScope);
-    $rootScope.$digest();
-    var e1 = jqLite(element[0].childNodes[1]);
-    var e2 = jqLite(element[0].childNodes[3]);
-    expect(e1.hasClass('existing')).toBeTruthy();
-    expect(e1.hasClass('odd')).toBeTruthy();
-    expect(e2.hasClass('existing')).toBeTruthy();
-    expect(e2.hasClass('even')).toBeTruthy();
-  }));
-
-
-  it('should allow both ngClass and ngClassOdd/Even on the same element', inject(function($rootScope, $compile) {
-    element = $compile('<ul>' +
-      '<li ng-repeat="i in [0,1]" ng-class="\'plainClass\'" ' +
-      'ng-class-odd="\'odd\'" ng-class-even="\'even\'"></li>' +
-      '<ul>')($rootScope);
-    $rootScope.$apply();
-    var e1 = jqLite(element[0].childNodes[1]);
-    var e2 = jqLite(element[0].childNodes[3]);
-
-    expect(e1.hasClass('plainClass')).toBeTruthy();
-    expect(e1.hasClass('odd')).toBeTruthy();
-    expect(e1.hasClass('even')).toBeFalsy();
-    expect(e2.hasClass('plainClass')).toBeTruthy();
-    expect(e2.hasClass('even')).toBeTruthy();
-    expect(e2.hasClass('odd')).toBeFalsy();
-  }));
-
-
-  it("should allow ngClassOdd/Even on the same element with overlapping classes", inject(function($rootScope, $compile, $animate) {
-      var className;
-
-      element = $compile('<ul><li ng-repeat="i in [0,1,2]" ng-class-odd="\'same odd\'" ng-class-even="\'same even\'"></li><ul>')($rootScope);
-      $rootScope.$digest();
-      var e1 = jqLite(element[0].childNodes[1]);
-      var e2 = jqLite(element[0].childNodes[5]);
-      expect(e1.hasClass('same')).toBeTruthy();
-      expect(e1.hasClass('odd')).toBeTruthy();
-      expect(e2.hasClass('same')).toBeTruthy();
-      expect(e2.hasClass('odd')).toBeTruthy();
-    })
-  );
 
   it('should allow ngClass with overlapping classes', inject(function($rootScope, $compile, $animate) {
     element = $compile('<div ng-class="{\'same yes\': test, \'same no\': !test}"></div>')($rootScope);
@@ -237,30 +194,6 @@ describe('ngClass', function() {
     expect(element).toHaveClass('same');
     expect(element).toHaveClass('yes');
     expect(element).not.toHaveClass('no');
-  }));
-
-  it('should allow both ngClass and ngClassOdd/Even with multiple classes', inject(function($rootScope, $compile) {
-    element = $compile('<ul>' +
-      '<li ng-repeat="i in [0,1]" ng-class="[\'A\', \'B\']" ' +
-      'ng-class-odd="[\'C\', \'D\']" ng-class-even="[\'E\', \'F\']"></li>' +
-      '<ul>')($rootScope);
-    $rootScope.$apply();
-    var e1 = jqLite(element[0].childNodes[1]);
-    var e2 = jqLite(element[0].childNodes[3]);
-
-    expect(e1.hasClass('A')).toBeTruthy();
-    expect(e1.hasClass('B')).toBeTruthy();
-    expect(e1.hasClass('C')).toBeTruthy();
-    expect(e1.hasClass('D')).toBeTruthy();
-    expect(e1.hasClass('E')).toBeFalsy();
-    expect(e1.hasClass('F')).toBeFalsy();
-
-    expect(e2.hasClass('A')).toBeTruthy();
-    expect(e2.hasClass('B')).toBeTruthy();
-    expect(e2.hasClass('E')).toBeTruthy();
-    expect(e2.hasClass('F')).toBeTruthy();
-    expect(e2.hasClass('C')).toBeFalsy();
-    expect(e2.hasClass('D')).toBeFalsy();
   }));
 
 
@@ -305,72 +238,6 @@ describe('ngClass', function() {
     element = $compile('<div ng-class="{foo:foo}"></div>')($rootScope);
     $rootScope.$digest();
     expect(element.hasClass('foo')).toBe(false);
-  }));
-
-
-  it('should update ngClassOdd/Even when an item is added to the model', inject(function($rootScope, $compile) {
-    element = $compile('<ul>' +
-      '<li ng-repeat="i in items" ' +
-      'ng-class-odd="\'odd\'" ng-class-even="\'even\'">i</li>' +
-      '<ul>')($rootScope);
-    $rootScope.items = ['b','c','d'];
-    $rootScope.$digest();
-
-    $rootScope.items.unshift('a');
-    $rootScope.$digest();
-
-    var e1 = jqLite(element[0].childNodes[1]);
-    var e4 = jqLite(element[0].childNodes[7]);
-
-    expect(e1.hasClass('odd')).toBeTruthy();
-    expect(e1.hasClass('even')).toBeFalsy();
-
-    expect(e4.hasClass('even')).toBeTruthy();
-    expect(e4.hasClass('odd')).toBeFalsy();
-  }));
-
-
-  it('should update ngClassOdd/Even when model is changed by filtering', inject(function($rootScope, $compile) {
-    element = $compile('<ul>' +
-      '<li ng-repeat="i in items track by $index" ' +
-      'ng-class-odd="\'odd\'" ng-class-even="\'even\'"></li>' +
-      '<ul>')($rootScope);
-    $rootScope.items = ['a','b','a'];
-    $rootScope.$digest();
-
-    $rootScope.items = ['a','a'];
-    $rootScope.$digest();
-
-    var e1 = jqLite(element[0].childNodes[1]);
-    var e2 = jqLite(element[0].childNodes[3]);
-
-    expect(e1.hasClass('odd')).toBeTruthy();
-    expect(e1.hasClass('even')).toBeFalsy();
-
-    expect(e2.hasClass('even')).toBeTruthy();
-    expect(e2.hasClass('odd')).toBeFalsy();
-  }));
-
-
-  it('should update ngClassOdd/Even when model is changed by sorting', inject(function($rootScope, $compile) {
-    element = $compile('<ul>' +
-      '<li ng-repeat="i in items" ' +
-      'ng-class-odd="\'odd\'" ng-class-even="\'even\'">i</li>' +
-      '<ul>')($rootScope);
-    $rootScope.items = ['a','b'];
-    $rootScope.$digest();
-
-    $rootScope.items = ['b','a'];
-    $rootScope.$digest();
-
-    var e1 = jqLite(element[0].childNodes[1]);
-    var e2 = jqLite(element[0].childNodes[3]);
-
-    expect(e1.hasClass('odd')).toBeTruthy();
-    expect(e1.hasClass('even')).toBeFalsy();
-
-    expect(e2.hasClass('even')).toBeTruthy();
-    expect(e2.hasClass('odd')).toBeFalsy();
   }));
 });
 

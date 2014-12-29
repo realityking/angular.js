@@ -310,27 +310,6 @@ describe('Binder', function() {
     expect(sortedHtml(element)).toBe('<div class="a b" ng-class="clazz"></div>');
   }));
 
-  it('BindClassEvenOdd', inject(function($rootScope, $compile) {
-    element = $compile(
-      '<div>' +
-        '<div ng-repeat="i in [0,1]" ng-class-even="\'e\'" ng-class-odd="\'o\'"></div>' +
-      '</div>')($rootScope);
-    $rootScope.$apply();
-
-    var d1 = jqLite(element[0].childNodes[1]);
-    var d2 = jqLite(element[0].childNodes[3]);
-    expect(d1.hasClass('o')).toBeTruthy();
-    expect(d2.hasClass('e')).toBeTruthy();
-    expect(sortedHtml(element)).toBe(
-       '<div>' +
-        '<!-- ngRepeat: i in [0,1] -->' +
-        '<div class="o" ng-class-even="\'e\'" ng-class-odd="\'o\'" ng-repeat="i in [0,1]"></div>' +
-        '<!-- end ngRepeat: i in [0,1] -->' +
-        '<div class="e" ng-class-even="\'e\'" ng-class-odd="\'o\'" ng-repeat="i in [0,1]"></div>' +
-        '<!-- end ngRepeat: i in [0,1] -->' +
-        '</div>');
-  }));
-
   it('BindStyle', inject(function($rootScope, $compile) {
     element = $compile('<div ng-style="style"/>')($rootScope);
 

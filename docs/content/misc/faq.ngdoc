@@ -176,8 +176,6 @@ That's not very exciting, so there's a second syntax:
 Where you give `ng-class` an object, whose keys are CSS class names and whose values are conditional expressions using `$scope` variables.
 The element will then have all the classes whose conditions are truthy, and none of those whose conditions are falsy.
 
-Note also the handy `ng-class-even` and `ng-class-odd`, and the related though somewhat different `ng-style`.
-
 
 ### `$watch` and `$apply`
 
