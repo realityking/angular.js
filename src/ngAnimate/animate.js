@@ -420,7 +420,7 @@ angular.module('ngAnimate', ['ng'])
   })
 
   //this private service is only used within CSS-enabled animations
-  //IE8 + IE9 do not support rAF natively, but that is fine since they
+  //IE9 do not support rAF natively, but that is fine since they
   //also don't support transitions and keyframes which means that the code
   //below will never be used by the two browsers.
   .factory('$$animateReflow', ['$$rAF', '$document', function($$rAF, $document) {
@@ -1296,7 +1296,7 @@ angular.module('ngAnimate', ['ng'])
         //skip the animation if animations are disabled, a parent is already being animated,
         //the element is not currently attached to the document body or then completely close
         //the animation if any matching animations are not found at all.
-        //NOTE: IE8 + IE9 should close properly (run closeAnimation()) in case an animation was found.
+        //NOTE: IE9 should close properly (run closeAnimation()) in case an animation was found.
         if (animationsDisabled(element, parentElement)) {
           fireDOMOperation();
           fireBeforeCallbackAsync();
