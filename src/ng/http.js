@@ -914,20 +914,7 @@ function $HttpProvider() {
      * @param {Object=} config Optional configuration object
      * @returns {HttpPromise} Future object
      */
-
-    /**
-     * @ngdoc method
-     * @name $http#jsonp
-     *
-     * @description
-     * Shortcut method to perform `JSONP` request.
-     *
-     * @param {string} url Relative or absolute URL specifying the destination of the request.
-     *                     The name of the callback should be the string `JSON_CALLBACK`.
-     * @param {Object=} config Optional configuration object
-     * @returns {HttpPromise} Future object
-     */
-    createShortMethods('get', 'delete', 'head', 'jsonp');
+    createShortMethods('get', 'delete', 'head');
 
     /**
      * @ngdoc method
@@ -1066,7 +1053,14 @@ function $HttpProvider() {
           reqHeaders[(config.xsrfHeaderName || defaults.xsrfHeaderName)] = xsrfValue;
         }
 
-        $httpBackend(config.method, url, reqData, done, reqHeaders, config.timeout,
+        var requestFn = $httpBackend.request;
+        if (config.method === 'JSONP') {
+          if (!$httpBackend.jsonpRequest) {
+            throw new minErr('$http')('To Perform JSONP requests, the ngJsonp module has to be loaded');
+          }
+          requestFn = $httpBackend.jsonpRequest;
+        }
+        requestFn(config.method, url, reqData, done, reqHeaders, config.timeout,
             config.withCredentials, config.responseType);
       }
 
