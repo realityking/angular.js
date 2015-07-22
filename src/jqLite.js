@@ -66,6 +66,7 @@
  * - [`next()`](http://api.jquery.com/next/) - Does not support selectors
  * - [`on()`](http://api.jquery.com/on/) - Does not support namespaces, selectors or eventData
  * - [`off()`](http://api.jquery.com/off/) - Does not support namespaces or selectors
+ * - [offset()](http://api.jquery.com/offset/) - Does not support setter
  * - [`one()`](http://api.jquery.com/one/) - Does not support namespaces or selectors
  * - [`parent()`](http://api.jquery.com/parent/) - Does not support selectors
  * - [`prepend()`](http://api.jquery.com/prepend/)
@@ -635,6 +636,31 @@ forEach({
       // normalize non-existing attributes to undefined (as jQuery)
       return ret === null ? undefined : ret;
     }
+  },
+
+  offset: function(element, options) {
+    if (isDefined(options)) throw jqLiteMinErr('offsetargs', 'jqLite#offset() does not support the `coordinates` or `function` parameters');
+
+    // Support: IE<=11+
+	// Running getBoundingClientRect on a
+	// disconnected node in IE throws an error
+	if (!element.getClientRects().length) {
+	  return {top: 0, left: 0};
+	}
+
+	var rect = element.getBoundingClientRect();
+
+	if (rect.width || rect.height) {
+	  var documentElement = doc.documentElement;;
+
+	  return {
+	    top: rect.top + window.pageYOffset - docElem.clientTop,
+	    left: rect.left + window.pageXOffset - docElem.clientLeft
+	  }
+	}
+
+	// Return zeros for disconnected and hidden elements
+	return rect;
   },
 
   prop: function(element, name, value) {

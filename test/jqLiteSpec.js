@@ -1858,6 +1858,30 @@ describe('jqLite', function() {
   });
 
 
+  describe('offset', function() {
+    it('should retrieve the offset of the element', function() {
+      var element = jqLite('<div style="position: absolute; top: 300px; left: 300px"></div>');
+      var doc = jqLite(document);
+      var body = doc.find('body');
+      body.append(element);
+
+      var offset = element.offset();
+      expect(offset.top).toBe(300);
+      expect(offset.left).toBe(300);
+    });
+
+    it('should throw when trying to set a value', function() {
+      function triggerError() {
+        var element = jqLite('<div></div>');
+        element.offset({top: 300, left: 300});
+      }
+
+      expect(triggerError).toThrowMinErr(
+        'jqLite', 'offsetargs', 'jqLite#offset() does not support the `coordinates` or `function` parameters');
+    });
+  });
+
+
   describe('triggerHandler', function() {
     it('should trigger all registered handlers for an event', function() {
       var element = jqLite('<span>poke</span>'),
