@@ -799,6 +799,27 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
     }
   };
 
+  function formatValue(modelValue) {
+    var formatters = ctrl.$formatters,
+       idx = formatters.length;
+
+    var viewValue = modelValue;
+    while (idx--) {
+      viewValue = formatters[idx](viewValue);
+    }
+
+    return viewValue;
+  }
+
+  this.$formatModel = function() {
+    var viewValue = formatValue(this.$modelValue);
+
+    if (this.$viewValue !== viewValue) {
+      this.$viewValue = ctrl.$$lastCommittedViewValue = viewValue;
+      this.$render();
+    }
+  };
+
   // model -> value
   // Note: we cannot use a normal scope.$watch as we want to detect the following:
   // 1. scope value is 'a'
@@ -819,13 +840,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
       ctrl.$modelValue = ctrl.$$rawModelValue = modelValue;
       parserValid = undefined;
 
-      var formatters = ctrl.$formatters,
-          idx = formatters.length;
-
-      var viewValue = modelValue;
-      while (idx--) {
-        viewValue = formatters[idx](viewValue);
-      }
+      var viewValue = formatValue(modelValue);
       if (ctrl.$viewValue !== viewValue) {
         ctrl.$viewValue = ctrl.$$lastCommittedViewValue = viewValue;
         ctrl.$render();

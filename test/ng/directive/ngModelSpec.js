@@ -439,6 +439,11 @@ describe('ngModel', function() {
     });
 
 
+    describe('$setModelValue', function() {
+    
+    });
+
+
     describe('model -> view', function() {
 
       it('should set the value to $modelValue', function() {
